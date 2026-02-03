@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Assignment 2</title>
+  </head>
+
+  <body onload="main()">
+    <p>Alice Liang, alyliang@ucsc.edu</p>
+    <canvas id="webgl" width="400" height="400">
+    Please use a browser that supports "canvas"
+    </canvas>
+
+    <script src="lib/webgl-utils.js"></script>
+    <script src="lib/webgl-debug.js"></script>
+    <script src="lib/cuon-utils.js"></script>
+    <script src="lib/cuon-matrix.js"></script>
+    <script src="Triangle.js"></script>
+    <script src="Circle.js"></script>
+    <script src="Point.js"></script>
+    <script src="Cube.js"></script>
+    <script src="Prism.js"></script>
+    <script src="Sphere.js"></script>
+    <script src="Pyramid.js"></script>
+    <script src="BlockyAnimal.js"></script>
+    <br></br>
+    <!-- Performance -->
+    <p id="numdot"> XXX </p>
+    <!-- Clear Canvas
+    <button type="button" id="clear">Clear Canvas</button>
+    <br></br> -->
+
+    <!-- Drawing modes -->
+    <!-- <label>Drawing Mode: </label>
+    <br>
+    <button type="button" id="square">Squares</button>
+    <button type="button" id="triangle">Triangles</button>
+    <button type="button" id="circle">Circles</button>
+    </br>
+    <br></br> -->
+
+    <!-- Camera Angle -->
+    <p>
+      Camera Angle (left and right)<input type="range" min="0" max="360" value="5" class="slider" id="angleSlide">
+    </p>
+    <p>
+      Camera Angle (up and down)<input type="range" min="0" max="360" value="5" class="slider" id="angleSlide2">
+    </p>
+       <p>
+      Yellow <input type="range" min="90" max="170" value="0" class="slider" id="yellowSlide">
+      Animation:
+      <button type="button" id="animationOn">ON</button>
+      <button type="button" id="animationOff">OFF</button>
+    </p>
+
+  </body>
+</html>
