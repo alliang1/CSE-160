@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Assignment 3 - 3D World</title>
+    <style>
+      #canvasWrapper {
+        position: relative;
+        display: inline-block;
+      }
+      #webgl { display: block; border: 2px solid #555; }
+      /* Overlay canvases sit on top of the WebGL canvas, pointer-events none so clicks pass through */
+      #overlayCanvas, #confettiCanvas {
+        position: absolute;
+        top: 0; left: 0;
+        pointer-events: none;
+      }
+      .controls { margin-top: 8px; font-size: 13px; }
+      .controls p { margin: 4px 0; }
+      label { display: inline-block; width: 220px; }
+    </style>
+  </head>
+
+  <body onload="main()">
+    <p>Goal: Find the hidden floating star to recieve a reward</p>
+    <div id="canvasWrapper">
+      <canvas id="webgl" width="640" height="480">
+        Please use a browser that supports "canvas"
+      </canvas>
+      <!-- HUD text overlay (star message) -->
+      <canvas id="overlayCanvas" width="640" height="480"></canvas>
+      <!-- Confetti overlay -->
+      <canvas id="confettiCanvas" width="640" height="480"></canvas>
+    </div>
+
+    <div class="controls">
+      <p>
+        <b>Controls:</b>
+        W/S = move forward/back |
+        A/D = move left/right |
+        Q/E = rotate left/right |
+        Mouse drag = look around |
+        Space = jump |
+        N = night mode |
+        F/G = add/delete block |
+        J = reward (find the star first!)
+      </p>
+      <p>
+        <label>Global Rotation (slider):</label>
+        <input type="range" min="0" max="360" value="0" class="slider" id="angleSlide">
+      </p>
+      <p>
+        <label>Right Arm Angle:</label>
+        <input type="range" min="90" max="170" value="135" class="slider" id="yellowSlide">
+        &nbsp; Waving Animation:
+        <button type="button" id="animationOn">ON</button>
+        <button type="button" id="animationOff">OFF</button>
+      </p>
+    </div>
+
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/webgl-debug.js"></script>
+    <script src="../lib/cuon-utils.js"></script>
+    <script src="../lib/cuon-matrix.js"></script>
+    <script src="Triangle.js"></script>
+    <script src="Circle.js"></script>
+    <script src="Point.js"></script>
+    <script src="Cube.js"></script>
+    <script src="Prism.js"></script>
+    <script src="Sphere.js"></script>
+    <script src="Pyramid.js"></script>
+    <script src="Camera.js"></script>
+    <script src="World.js"></script>
+  </body>
+</html>
