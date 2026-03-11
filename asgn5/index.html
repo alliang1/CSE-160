@@ -52,44 +52,17 @@
 
     /* ── Monitor browser UI — purely decorative, no interaction ────────────── */
     #monitor-browser {
-      width: 880px;
-      height: 480px;
+      width: 890px;
+      height: 473px;
       background: #0a0015;
-      border: 2px solid #6600cc;
+      /* border: 2px solid #6600cc; */
       border-radius: 8px;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      box-shadow: 0 0 40px #aa00ff88, inset 0 0 20px #11002288;
+      /* box-shadow: 0 0 40px #aa00ff88, inset 0 0 20px #11002288; */
       font-family: 'Courier New', monospace;
     }
-
-    /* Decorative browser toolbar */
-    #browser-bar {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 14px;
-      background: #110022;
-      border-bottom: 1px solid #440088;
-      flex-shrink: 0;
-    }
-    #browser-dots { display: flex; gap: 5px; }
-    #browser-dots span { width: 10px; height: 10px; border-radius: 50%; }
-    #browser-dots span:nth-child(1) { background: #ff5f57; }
-    #browser-dots span:nth-child(2) { background: #ffbd2e; }
-    #browser-dots span:nth-child(3) { background: #28c840; }
-
-    #browser-url-display {
-      flex: 1;
-      background: #1a0033;
-      border: 1px solid #6600cc;
-      border-radius: 20px;
-      padding: 5px 14px;
-      color: #cc88ff;
-      font-size: 11px;
-    }
-
     #browser-iframe {
       flex: 1;
       border: none;
@@ -111,9 +84,13 @@
     Monitor browser div — CSS3DObject in main.js positions this on the TV screen.
     Purely decorative. pointer-events: none is set on iframe and in main.js.
   -->
+    <!-- Spongebob -->
+    <!-- src="https://www.youtube.com/embed/xRfwXBitjc8?autoplay=1&mute=1&loop=1&controls=0&playlist=xRfwXBitjc8&modestbranding=1&start=7165" -->
+     <!-- campfire -->
+     <!-- src="https://www.youtube.com/embed/L_LUpnjgPso?autoplay=1&mute=1&loop=1&controls=0&playlist=L_LUpnjgPso&modestbranding=1" -->
   <div id="monitor-browser">
     <iframe id="browser-iframe"
-            src="https://www.youtube.com/embed/L_LUpnjgPso?autoplay=1&mute=1&loop=1&controls=0&playlist=L_LUpnjgPso&modestbranding=1"
+            src="https://www.youtube.com/embed/xRfwXBitjc8?autoplay=1&mute=1&loop=1&controls=0&playlist=xRfwXBitjc8&modestbranding=1&start=7165"
             sandbox="allow-scripts allow-same-origin">
     </iframe>
   </div>
