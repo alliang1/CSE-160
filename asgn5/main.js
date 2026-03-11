@@ -3,7 +3,6 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader }    from 'three/addons/loaders/GLTFLoader.js';
 import { CSS3DRenderer, CSS3DObject } from 'three/addons/renderers/CSS3DRenderer.js';
 
-
 // ─── RENDERER ────────────────────────────────────────────────────────────────
 const canvas = document.querySelector('#c');
 const renderer = new THREE.WebGLRenderer({ antialias: true, canvas });
@@ -49,20 +48,7 @@ controls.mouseButtons = {
 
 
 // ═══════════════════════════════════════════════════════════════════════════
-//  SKYBOX  —  Procedural Cubemap (no image files needed)
-//
-//  A cubemap is 6 square textures mapped to the inside of a cube.
-//  Three.js uses it as scene.background, drawing it behind everything.
-//  The 6 faces are ordered: +X, -X, +Y, -Y, +Z, -Z
-//                         = right, left, top, bottom, front, back
-//
-//  We procedurally draw each face with the Canvas 2D API:
-//    1. A dark purple-to-black space gradient
-//    2. Soft nebula glow blobs (radial gradients layered on top)
-//    3. ~220 randomised stars per face (dots with size/brightness variation)
-//
-//  A seeded LCG (Linear Congruential Generator) keeps star positions
-//  deterministic across reloads and unique per face.
+//  SKYBOX 
 // ═══════════════════════════════════════════════════════════════════════════
 
 /**
@@ -86,7 +72,7 @@ function makeSkyFace(gradTop, gradBottom, seed) {
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, SIZE, SIZE);
 
-  // 2. Nebula blobs — soft radial gradients for an atmospheric haze
+  // 2. Nebula blobs
   const nebulas = [
     { x: SIZE * 0.30, y: SIZE * 0.40, r: SIZE * 0.35, color: 'rgba(120,0,200,0.13)' },
     { x: SIZE * 0.72, y: SIZE * 0.55, r: SIZE * 0.30, color: 'rgba(0,60,200,0.10)'  },
@@ -101,7 +87,7 @@ function makeSkyFace(gradTop, gradBottom, seed) {
     ctx.fillRect(0, 0, SIZE, SIZE);
   }
 
-  // 3. Stars — LCG pseudo-random number generator seeded per face
+  // 3. Stars 
   //    Formula: s = (s * 1664525 + 1013904223) mod 2^32
   let s = seed >>> 0;
   function rand() {
@@ -148,9 +134,8 @@ const skyboxTexture = new THREE.CubeTexture(skyCanvases);
 skyboxTexture.needsUpdate = true;
 scene.background = skyboxTexture;  // renders as the background behind all geometry
 
-
 // ═══════════════════════════════════════════════════════════════════════════
-//  PROCEDURAL TEXTURE HELPERS  (Canvas 2D — no image files needed)
+//  PROCEDURAL TEXTURE HELPERS
 // ═══════════════════════════════════════════════════════════════════════════
 
 function makeColorTexture(hex, gridHex = null, gridSize = 8) {
@@ -195,19 +180,18 @@ const floorTex   = makeCheckerTexture('#110022', '#1a0035');
 floorTex.repeat.set(8, 8);
 const wallTex    = makeColorTexture('#0d001a', '#1a0033', 32);
 wallTex.repeat.set(4, 2);
-const deskTex    = makeColorTexture('#1a0a2e', '#2a1050', 16);
 const screenTex  = makeColorTexture('#00ffcc');
 const lightTex  = makeColorTexture('#ffffff');
 const screenTex2 = makeColorTexture('#ff44aa');
 const screenTex3 = makeColorTexture('#262626');
 
 // ─── MATERIALS ───────────────────────────────────────────────────────────────
-const matFloor = new THREE.MeshStandardMaterial({ map: floorTex,   roughness: 0.8, metalness: 0.1 });
-const matWall = new THREE.MeshStandardMaterial({ map: wallTex,    roughness: 0.9, metalness: 0.0 });
-const matDesk = new THREE.MeshStandardMaterial({ color: 0xFFFFFF ,    roughness: 0.8, metalness: 0.3 });
-const matScreen1 = new THREE.MeshStandardMaterial({ map: screenTex,  emissive: new THREE.Color(0x00ffcc), emissiveIntensity: 0.8, roughness: 0.2 });
+const matFloor = new THREE.MeshStandardMaterial({ map: floorTex, roughness: 0.8, metalness: 0.1 });
+const matWall = new THREE.MeshStandardMaterial({ map: wallTex, roughness: 0.9, metalness: 0.0 });
+const matDesk = new THREE.MeshStandardMaterial({ color: 0xFFFFFF , roughness: 0.8, metalness: 0.3 });
+const matScreen1 = new THREE.MeshStandardMaterial({ map: screenTex, emissive: new THREE.Color(0x00ffcc), emissiveIntensity: 0.8, roughness: 0.2 });
 const matScreen2 = new THREE.MeshStandardMaterial({ map: screenTex2, emissive: new THREE.Color(0xff44aa), emissiveIntensity: 0.8, roughness: 0.2 });
-const matScreen3 = new THREE.MeshStandardMaterial({ map: screenTex3,  emissive: new THREE.Color(0x8b8b8c), emissiveIntensity: 0.8, roughness: 0.2 });
+const matScreen3 = new THREE.MeshStandardMaterial({ map: screenTex3, emissive: new THREE.Color(0x8b8b8c), emissiveIntensity: 0.8, roughness: 0.2 });
 const matNeonPurple = new THREE.MeshStandardMaterial({ color: 0xaa44ff, emissive: new THREE.Color(0x9900ff), emissiveIntensity: 1.5, roughness: 0.3 });
 const matNeonBlue = new THREE.MeshStandardMaterial({ color: 0x44aaff, emissive: new THREE.Color(0x0088ff), emissiveIntensity: 1.5, roughness: 0.3 });
 const matChair = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.7, metalness: 0.2 });
@@ -218,22 +202,15 @@ const matGlass = new THREE.MeshStandardMaterial({ color: 0xA9A9A9, roughness: 0,
 const matLight = new THREE.MeshStandardMaterial({ map: lightTex,  emissive: new THREE.Color(0xffffff), emissiveIntensity: 0.8, roughness: 0.2 });
 
 // ─── COUCH TEXTURE ───────────────────────────────────────────────────────────
-// TextureLoader loads an image file and converts it into a Three.js texture.
-// The image must be in the same folder as index.html.
-// Must be served via Live Server — won't work with file:// directly.
-
 const textureLoader = new THREE.TextureLoader();
 
 const couchTexture = textureLoader.load('./textures/couchMaterial.jpg');
 
-// Optional tweaks — try these if the texture looks stretched or tiled weird
 couchTexture.wrapS = THREE.RepeatWrapping;  // tile horizontally
 couchTexture.wrapT = THREE.RepeatWrapping; // tile vertically
 couchTexture.repeat.set(2, 1); // repeat 2x wide, 1x tall
 // set both to 1 for one full image across
 
-// Now create the material using the texture as the 'map'
-// 'map' is the base color/diffuse texture slot
 const matCouch = new THREE.MeshStandardMaterial({
   map: couchTexture,
   roughness: 0.9,
@@ -469,43 +446,11 @@ for (let i = 0; i < 6; i++) {
   d.userData.floatOffset = i * 0.8;  // stagger phase for the bobbing animation
 }
 
-// // Wall posters
-// [[0x0033aa, -5.8, 3, -2], [0x440066, -5.8, 3, 1]].forEach(([col, x, y, z]) => {
-//   const m = new THREE.MeshStandardMaterial({ color: col, emissive: new THREE.Color(col), emissiveIntensity: 0.15 });
-//   const p = makeMesh(new THREE.BoxGeometry(0.8, 1.1, 0.04), m, x, y, z);
-//   p.rotation.y = Math.PI / 2;
-// });
-
 
 // ═══════════════════════════════════════════════════════════════════════════
 //  GLTF 3D MODEL LOADER
-//
-//  GLTFLoader loads .glb / .gltf — the modern web-standard 3D format.
-//
-//  We load the official Three.js "Soldier" demo model:
-//    - Fully rigged and animated humanoid figure
-//    - Hosted on the Three.js CDN — no CORS issues
-//    - Has 4 animation clips: Idle, Walk, Run, TPose
-//
-//  ── How to swap in your own model ────────────────────────────────────────
-//    1. Download a .glb from https://poly.pizza or https://sketchfab.com
-//    2. Copy it into the same folder as index.html and main.js
-//    3. Change MODEL_URL to just the filename:  './your_model.glb'
-//       (must be served via a local server — see README note about file:// URLs)
-//    4. Adjust model.scale and model.position to fit your scene
-//
-//  ── What gltfLoader.load() returns ───────────────────────────────────────
-//    The onLoad callback receives a 'gltf' object:
-//      gltf.scene      — THREE.Group containing all meshes (add this to scene)
-//      gltf.animations — array of THREE.AnimationClip objects
-//      gltf.cameras    — cameras baked into the file (usually empty)
-//      gltf.asset      — metadata (version, generator string, etc.)
 // ═══════════════════════════════════════════════════════════════════════════
 
-
-const loadingEl = document.getElementById('loading');
-
-// gltfMixer is assigned once the model loads so animate() can call update()
 let gltfMixer = null;
 
 const gltfLoader = new GLTFLoader();
@@ -528,8 +473,7 @@ gltfLoader.load(
     model.rotation.y = -Math.PI * 0.6;  // face diagonally into the room
 
     // model.traverse() walks the entire node hierarchy recursively.
-    // We use it to: (a) enable shadows on every mesh, and
-    //               (b) add a purple emissive tint that fits the room aesthetic.
+  
     model.traverse((node) => {
       if (node.isMesh) {
         node.castShadow    = true;
@@ -543,41 +487,14 @@ gltfLoader.load(
 
     scene.add(model);
 
-    // ── Play the model's first animation ────────────────────────────────
-    // AnimationMixer drives clips on a specific object.
-    // mixer.update(delta) must be called each frame (see animate loop below).
+    //"idle" animation
     if (gltf.animations && gltf.animations.length > 0) {
       gltfMixer = new THREE.AnimationMixer(model);
 
-      // Log animation names — useful when picking a specific clip by name
-      console.log('Animations found:', gltf.animations.map(a => a.name));
-
-      // clipAction() creates a playable action from a clip.
-      // gltf.animations[0] is "Idle" for Soldier.glb.
-      // Swap to a different index or use:
-      //   THREE.AnimationClip.findByName(gltf.animations, 'Walk')
       const action = gltfMixer.clipAction(gltf.animations[0]);
       action.play();
     }
-
-    if (loadingEl) loadingEl.style.display = 'none';
-    console.log('GLTF model loaded');
   },
-
-  // ── onProgress ───────────────────────────────────────────────────────────
-  (xhr) => {
-    if (xhr.lengthComputable && loadingEl) {
-      const pct = Math.round((xhr.loaded / xhr.total) * 100);
-      loadingEl.textContent = `Loading 3D model… ${pct}%`;
-    }
-  },
-
-  // ── onError ──────────────────────────────────────────────────────────────
-  (error) => {
-    console.error('GLTF load error:', error);
-    if (loadingEl) loadingEl.textContent = 'Model failed — see console';
-    // Room is fully functional without the model; only the figure is missing
-  }
 );
 
 
@@ -585,7 +502,7 @@ gltfLoader.load(
 //  LIGHTS
 // ═══════════════════════════════════════════════════════════════════════════
 
-// 1. AmbientLight — flat fill light, no direction, no shadows
+// 1. AmbientLight, flat fill light, no direction, no shadows
 const ambientLight = new THREE.AmbientLight(0x110022, 0.8);
 scene.add(ambientLight);
 
@@ -594,7 +511,7 @@ scene.add(ambientLight);
 const hemiLight = new THREE.HemisphereLight(0x0044ff, 0x440088, 0.6);
 scene.add(hemiLight);
 
-// 3. DirectionalLight — infinite parallel rays (like sunlight), casts shadows
+// 3. DirectionalLight, infinite parallel rays (like sunlight), casts shadows
 const dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
 dirLight.position.set(2, 8, 2);
 dirLight.castShadow = true;
@@ -607,12 +524,12 @@ dirLight.shadow.camera.top    =  10;
 dirLight.shadow.camera.bottom = -10;
 scene.add(dirLight);
 
-// 4. PointLight — purple neon underglow along the floor
+// 4. PointLight, purple neon underglow along the floor
 const floorGlow = new THREE.PointLight(0xaa00ff, 3, 12);
 floorGlow.position.set(0, 0.5, -2);
 scene.add(floorGlow);
 
-// 5. PointLight — teal glow from the monitor bank
+// 5. PointLight, teal glow from the monitor bank
 const monitorGlow = new THREE.PointLight(0x00ffcc, 2, 5);
 monitorGlow.position.set(-1, 2.5, -4.2);
 scene.add(monitorGlow);
@@ -626,7 +543,7 @@ spotLight.castShadow = true;
 scene.add(spotLight);
 scene.add(spotLight.target);  // target must be added to the scene separately
 
-// 7. PointLight — hot pink accent on the right side
+// 7. PointLight, hot pink accent on the right side
 const pinkGlow = new THREE.PointLight(0xff44aa, 1.5, 6);
 pinkGlow.position.set(4, 2, -4);
 scene.add(pinkGlow);
@@ -647,12 +564,6 @@ window.addEventListener('resize', () => {
 
 // ═══════════════════════════════════════════════════════════════════════════
 //  ANIMATION LOOP
-//
-//  requestAnimationFrame(fn) schedules fn before the next screen repaint
-//  (~60fps). The browser passes the current timestamp in milliseconds.
-//
-//  THREE.Clock.getDelta() returns seconds since last call — we need this to
-//  advance AnimationMixer at the correct speed regardless of frame rate.
 // ═══════════════════════════════════════════════════════════════════════════
 const clock = new THREE.Clock();
 
@@ -662,7 +573,7 @@ function animate(time) {
   const t     = time * 0.001;     // total elapsed seconds
   const delta = clock.getDelta(); // seconds since the previous frame
 
-  // Advance GLTF animation — without this the model would be frozen on frame 0
+  // Advance GLTF animation
   if (gltfMixer) gltfMixer.update(delta);
 
   // Float and spin the diamond decorations
@@ -679,10 +590,9 @@ function animate(time) {
   monitorGlow.intensity        = 1.8 + Math.sin(t * 2.3 + 1.0)  * 0.5;
   matScreen1.emissiveIntensity = 0.6 + Math.abs(Math.sin(t * 0.4)) * 0.4;
 
-  controls.update();  // required every frame when enableDamping = true
+  controls.update();  
   renderer.render(scene, camera);
   cssRenderer.render(scene, camera);
-
   
 }
 
@@ -696,7 +606,6 @@ const pointer    = new THREE.Vector2();
 let   tvOn       = true;
 
 function onPointerClick(event) {
-  // Normalise mouse coords to -1..+1
   pointer.x =  (event.clientX / window.innerWidth)  * 2 - 1;
   pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
@@ -721,11 +630,8 @@ function onPointerClick(event) {
 
 window.addEventListener('click', onPointerClick);
 
-// ─── CSS3D TV SCREEN — Wikipedia, decorative, always visible ─────────────────
-// TV mesh is at (-6.97, 3, 2), face pointing +X into the room.
-// Div is 880x480px. Scale = 4.3/880 = 0.00489 so it fills the TV face.
-// rotation.y = PI/2 turns the div to face +X.
-// x nudged to -6.85 to float just in front of the screen surface.
+// CSS3D TV SCREEN
+
 const browserDiv = document.getElementById('monitor-browser');
 const cssObject   = new CSS3DObject(browserDiv);
 cssObject.position.set(-6.94, 3, 2);
@@ -733,7 +639,6 @@ cssObject.rotation.y = Math.PI / 2;
 cssObject.scale.setScalar(0.00489);
 scene.add(cssObject);
 
-// pointer-events none so orbit/pan/zoom always work
 browserDiv.style.pointerEvents = 'none';
 
 // ─── WALL CLOCK ──────────────────────────────────────────────────────────────
