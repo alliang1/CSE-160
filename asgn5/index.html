@@ -9,7 +9,6 @@
     body { background: #000; overflow: hidden; }
     canvas { display: block; width: 100vw; height: 100vh; }
 
-    /* CSS3DRenderer container — pointer-events off so mouse always reaches canvas */
     #css3d-container {
       position: fixed;
       top: 0; left: 0;
@@ -23,50 +22,24 @@
       left: 50%;
       transform: translateX(-50%);
       color: #cc88ff;
-      font-family: 'Courier New', monospace;
       font-size: 13px;
       background: rgba(0,0,0,0.5);
       padding: 8px 16px;
       border-radius: 20px;
       border: 1px solid #6633aa;
-      pointer-events: none;
       text-align: center;
-      z-index: 100;
     }
 
-    #loading {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: #88ffcc;
-      font-family: 'Courier New', monospace;
-      font-size: 12px;
-      background: rgba(0,0,0,0.6);
-      padding: 6px 14px;
-      border-radius: 12px;
-      border: 1px solid #00ffcc44;
-      pointer-events: none;
-      z-index: 100;
-    }
-
-    /* ── Monitor browser UI — purely decorative, no interaction ────────────── */
+    /* TV Screen */
     #monitor-browser {
       width: 890px;
       height: 473px;
-      background: #0a0015;
-      /* border: 2px solid #6600cc; */
-      border-radius: 8px;
       display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      /* box-shadow: 0 0 40px #aa00ff88, inset 0 0 20px #11002288; */
-      font-family: 'Courier New', monospace;
     }
     #browser-iframe {
       flex: 1;
       border: none;
-      background: #fff;
+      background: #000;
       pointer-events: none;
     }
   </style>
@@ -74,15 +47,12 @@
 <body>
   <canvas id="c"></canvas>
 
-  <!-- CSS3DRenderer injects its div here -->
   <div id="css3d-container"></div>
 
   <div id="info">TV turns on & off (click on remote) | Left-drag: pan | Scroll: zoom | Right-drag: orbit</div>
-  <div id="loading">Loading 3D model…</div>
 
   <!--
-    Monitor browser div — CSS3DObject in main.js positions this on the TV screen.
-    Purely decorative. pointer-events: none is set on iframe and in main.js.
+    TV SCREEN
   -->
     <!-- Spongebob -->
     <!-- src="https://www.youtube.com/embed/xRfwXBitjc8?autoplay=1&mute=1&loop=1&controls=0&playlist=xRfwXBitjc8&modestbranding=1&start=7165" -->
