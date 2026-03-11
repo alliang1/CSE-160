@@ -207,7 +207,7 @@ const matWall = new THREE.MeshStandardMaterial({ map: wallTex,    roughness: 0.9
 const matDesk = new THREE.MeshStandardMaterial({ color: 0xFFFFFF ,    roughness: 0.8, metalness: 0.3 });
 const matScreen1 = new THREE.MeshStandardMaterial({ map: screenTex,  emissive: new THREE.Color(0x00ffcc), emissiveIntensity: 0.8, roughness: 0.2 });
 const matScreen2 = new THREE.MeshStandardMaterial({ map: screenTex2, emissive: new THREE.Color(0xff44aa), emissiveIntensity: 0.8, roughness: 0.2 });
-const matScreen3 = new THREE.MeshStandardMaterial({ map: screenTex3,  emissive: new THREE.Color(0x262626), emissiveIntensity: 0.8, roughness: 0.2 });
+const matScreen3 = new THREE.MeshStandardMaterial({ map: screenTex3,  emissive: new THREE.Color(0x8b8b8c), emissiveIntensity: 0.8, roughness: 0.2 });
 const matNeonPurple = new THREE.MeshStandardMaterial({ color: 0xaa44ff, emissive: new THREE.Color(0x9900ff), emissiveIntensity: 1.5, roughness: 0.3 });
 const matNeonBlue = new THREE.MeshStandardMaterial({ color: 0x44aaff, emissive: new THREE.Color(0x0088ff), emissiveIntensity: 1.5, roughness: 0.3 });
 const matChair = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.7, metalness: 0.2 });
@@ -437,8 +437,8 @@ makeMesh(new THREE.BoxGeometry(0.03, 0.05, 0.3), matMetal,  -6.32, 1.36, 0.4);
 makeMesh(new THREE.CylinderGeometry(0.2, 0.2, 0.06, 64), matLight,  -6.67, 1.60, 2);
 
 //TV
-const tvMesh = makeMesh(new THREE.BoxGeometry(0.1, 2, 4.3), matScreen3,  -6.97, 3, 2);
-makeMesh(new THREE.BoxGeometry(0.1, 2.2, 4.5), matMetal,  -6.99, 3, 2);
+const tvMesh = makeMesh(new THREE.BoxGeometry(0.1, 2.3, 4.3), matScreen3,  -6.97, 3, 2);
+makeMesh(new THREE.BoxGeometry(0.1, 2.6, 4.5), matMetal,  -6.99, 3, 2);
 
 //Speaker
 makeMesh(new THREE.BoxGeometry(0.6, 2.5, 0.6), matMetal,  -6.68, 2.3, 4.8);
@@ -682,6 +682,8 @@ function animate(time) {
   controls.update();  // required every frame when enableDamping = true
   renderer.render(scene, camera);
   cssRenderer.render(scene, camera);
+
+  
 }
 
 
@@ -704,12 +706,12 @@ function onPointerClick(event) {
   if (hits.length > 0) {
     tvOn = !tvOn;
 
-    // Toggle the CSS3D Wikipedia screen
+    // Toggle the CSS3D 
     browserDiv.style.opacity = tvOn ? '1' : '0';
 
     // Toggle the WebGL TV screen glow
     tvMesh.material.emissiveIntensity = tvOn ? 0.8 : 0;
-    tvMesh.material.color.set(tvOn ? 0x00ffcc : 0x000000);
+    tvMesh.material.color.set(tvOn ? 0x8b8b8c : 0x000000);
 
     // Pulse the power button red/green as feedback
     remoteBtn.material.color.set(tvOn ? 0x00ff44 : 0xff2200);
@@ -726,7 +728,7 @@ window.addEventListener('click', onPointerClick);
 // x nudged to -6.85 to float just in front of the screen surface.
 const browserDiv = document.getElementById('monitor-browser');
 const cssObject   = new CSS3DObject(browserDiv);
-cssObject.position.set(-6.91, 3, 2);
+cssObject.position.set(-6.94, 3, 2);
 cssObject.rotation.y = Math.PI / 2;
 cssObject.scale.setScalar(0.00489);
 scene.add(cssObject);
