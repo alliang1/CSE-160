@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Assignment 5</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #000; overflow: hidden; }
+    canvas { display: block; width: 100vw; height: 100vh; }
+
+    /* CSS3DRenderer container — pointer-events off so mouse always reaches canvas */
+    #css3d-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+    }
+
+    #info {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #cc88ff;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      background: rgba(0,0,0,0.5);
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid #6633aa;
+      pointer-events: none;
+      text-align: center;
+      z-index: 100;
+    }
+
+    #loading {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #88ffcc;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      background: rgba(0,0,0,0.6);
+      padding: 6px 14px;
+      border-radius: 12px;
+      border: 1px solid #00ffcc44;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    /* ── Monitor browser UI — purely decorative, no interaction ────────────── */
+    #monitor-browser {
+      width: 880px;
+      height: 480px;
+      background: #0a0015;
+      border: 2px solid #6600cc;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 0 40px #aa00ff88, inset 0 0 20px #11002288;
+      font-family: 'Courier New', monospace;
+    }
+
+    /* Decorative browser toolbar */
+    #browser-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      background: #110022;
+      border-bottom: 1px solid #440088;
+      flex-shrink: 0;
+    }
+    #browser-dots { display: flex; gap: 5px; }
+    #browser-dots span { width: 10px; height: 10px; border-radius: 50%; }
+    #browser-dots span:nth-child(1) { background: #ff5f57; }
+    #browser-dots span:nth-child(2) { background: #ffbd2e; }
+    #browser-dots span:nth-child(3) { background: #28c840; }
+
+    #browser-url-display {
+      flex: 1;
+      background: #1a0033;
+      border: 1px solid #6600cc;
+      border-radius: 20px;
+      padding: 5px 14px;
+      color: #cc88ff;
+      font-size: 11px;
+    }
+
+    #browser-iframe {
+      flex: 1;
+      border: none;
+      background: #fff;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="c"></canvas>
+
+  <!-- CSS3DRenderer injects its div here -->
+  <div id="css3d-container"></div>
+
+  <div id="info">Gaming Room | Left-drag: pan | Scroll: zoom | Right-drag: orbit</div>
+  <div id="loading">Loading 3D model…</div>
+
+  <!--
+    Monitor browser div — CSS3DObject in main.js positions this on the TV screen.
+    Purely decorative. pointer-events: none is set on iframe and in main.js.
+  -->
+  <div id="monitor-browser">
+    <iframe id="browser-iframe"
+            src="https://www.youtube.com/embed/L_LUpnjgPso?autoplay=1&mute=1&loop=1&controls=0&playlist=L_LUpnjgPso&modestbranding=1"
+            sandbox="allow-scripts allow-same-origin">
+    </iframe>
+  </div>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three":          "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/":  "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+  <script type="module" src="main.js"></script>
+</body>
+</html>
